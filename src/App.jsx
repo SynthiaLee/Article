@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { axiosInstance } from "./api";
 import ArticleList from "./ArticleList";
+import ArticleDetail from "./ArticleDetail";
 
 function App() {
   const [selectedId, setSelectedId] = useState(null);
@@ -25,20 +25,4 @@ const StyledApp = styled.div`
   width: 80%;
   justify-content: space-around;
   margin-top: 60px;
-`;
-
-function ArticleDetail({ selectedId }) {
-  const [content, setContent] = useState(null);
-  useEffect(() => {
-    console.log("hi");
-    axiosInstance.get(`/article/${selectedId}`).then((res) => {
-      setContent(res.data.content);
-    });
-  }, [selectedId]);
-
-  return <Content>{content}</Content>;
-}
-
-const Content = styled.div`
-  margin-top: 30px;
 `;
