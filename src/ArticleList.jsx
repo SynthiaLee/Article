@@ -1,18 +1,6 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { axiosInstance } from "./api";
 
-function ArticleList({ onSelect }) {
-  const [articleList, setArticleList] = useState([]);
-
-  useEffect(() => {
-    axiosInstance.get(`/article`).then((res) => {
-      console.log("요청왔다!", res.data);
-      setArticleList(res.data);
-    });
-    console.log("요청했다!");
-  }, []);
-
+function ArticleList({ onSelect, articleList }) {
   function handleView(id) {
     onSelect(id);
   }

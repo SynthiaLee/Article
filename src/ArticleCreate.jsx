@@ -1,26 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { axiosInstance } from "./api";
 
-function ArticleCreate() {
+function ArticleCreate({ onCreate }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   function handleCreate() {
-    axiosInstance
-      .post(`/article`, {
-        title: title,
-        content: content,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    axiosInstance
-      .get(`/article`)
-      .then((res) => console.log("새 기사 추가됐다!"));
+    onCreate({ title, content });
     setTitle("");
     setContent("");
     alert("New article has been added!");
