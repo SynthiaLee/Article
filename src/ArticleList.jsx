@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import { axiosInstance } from "./api";
 
 function ArticleList({ onSelect }) {
   const [articleList, setArticleList] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5005/api/v1/article").then((res) => {
+    axiosInstance.get(`/article`).then((res) => {
       console.log("요청왔다!", res.data);
       setArticleList(res.data);
     });
     console.log("요청했다!");
-  }, [articleList]);
+  }, []);
 
   function handleView(id) {
     onSelect(id);
