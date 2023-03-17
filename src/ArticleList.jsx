@@ -7,11 +7,11 @@ function ArticleList({ onSelect, articleList }) {
 
   return (
     <StyledList>
-      <Title>Article List</Title>
       {articleList.map((v) => (
-        <StyledDiv>
-          {v.title} <Button onClick={() => handleView(v.id)}>View</Button>
-        </StyledDiv>
+        <ArticleButton>
+          <Button onClick={() => handleView(v.id)}> {v.title} </Button>
+          <Icon></Icon>
+        </ArticleButton>
       ))}
     </StyledList>
   );
@@ -20,25 +20,25 @@ function ArticleList({ onSelect, articleList }) {
 export default ArticleList;
 
 const StyledList = styled.div``;
-const Title = styled.h2`
+
+const ArticleButton = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: flex-start;
-`;
-const StyledDiv = styled.div`
-  margin-bottom: 30px;
+  justify-content: space-between;
 `;
 const Button = styled.button`
-  width: 50px;
-  height: 30px;
-  background-color: palevioletred;
-  color: white;
-  font-size: 15px;
-  border: solid white 3px;
-  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  width: 1260px;
+  height: 89px;
+  color: black;
+  font-size: 24px;
+  padding: 30px 0px;
+  border: solid white 1px;
+  border-bottom: solid #e3e8eb 1px;
   &:hover {
-    background-color: #db90a9;
+    background-color: #e3e8eb6f;
     cursor: pointer;
   }
 `;
+const Icon = styled.div``;

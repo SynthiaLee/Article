@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { axiosInstance } from "./api";
 
-function ArticleDetail({ selectedId }) {
+function ArticleDetail({ selectedId, onDelete }) {
   const [content, setContent] = useState(null);
   useEffect(() => {
     getArticle();
@@ -15,10 +15,12 @@ function ArticleDetail({ selectedId }) {
   }
 
   function handleDelete(selectedId) {
-    axiosInstance.delete(`/article/${selectedId}`).then(() => {
-      getArticle();
-      alert("Article has been deleted.");
-    });
+    if (window.confirm("Are you sure?")) {
+      axiosInstance.delete(`/article/${selectedId}`).then(() => {
+        alert("Article has been deleted.");
+        onDelete();
+      });
+    }
   }
 
   return (

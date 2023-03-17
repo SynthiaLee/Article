@@ -58,7 +58,7 @@ const Button = styled.button`
   height: 30px;
   color: white;
   background-color: palevioletred;
-  border: solid white 3px;
+  border: solid white 1px;
   border-radius: 10px;
   font-size: 15px;
   &:hover {
@@ -71,6 +71,6 @@ const Input = styled.input`
   height: 30px;
   color: black;
   border: solid black 1px;
-  border-radius: 5px;
+  border-radius: 10px;
   margin-bottom: 10px;
 `;
