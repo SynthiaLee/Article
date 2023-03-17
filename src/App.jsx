@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import ArticleList from "./ArticleList";
 import ArticleDetail from "./ArticleDetail";
-import ArticleCreate from "./ArticleCreate";
 import { axiosInstance } from "./api";
 import Modal from "react-modal";
-import { CloseIcon } from "./CloseIcon";
+import WriteModal from "./WriteModal";
 import { AddIcon } from "./AddIcon";
 
 Modal.setAppElement("#root");
@@ -14,7 +13,6 @@ function App() {
   const [articleList, setArticleList] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [modalIsOpen, setmodalIsOpen] = useState(false);
-  const [articleModalIsOpen, setArticleModalIsOpen] = useState(false);
 
   function handleSelect(id) {
     setSelectedId(id);
@@ -26,25 +24,6 @@ function App() {
     });
     console.log("요청했다!");
   }, []);
-
-  function handleCreate({ title, content }) {
-    axiosInstance
-      .post(`/article`, {
-        title: title,
-        content: content,
-      })
-      .then(function (response) {
-        console.log(response);
-
-        axiosInstance.get(`/article`).then((res) => {
-          console.log("요청왔다!", res.data);
-          setArticleList(res.data);
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
 
   function handleDelete() {
     axiosInstance.get(`/article`).then((res) => {
@@ -59,86 +38,14 @@ function App() {
         <AddButton onClick={() => setmodalIsOpen(true)}>
           <AddIcon />글 작성하기
         </AddButton>
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={() => setmodalIsOpen(false)}
-          style={{
-            overlay: {
-              backgroundColor: "#F8F9FA",
-            },
-            content: {
-              backgroundColor: "FFFFFF",
-              top: "172px",
-              left: "220px",
-              right: "220px",
-              bottom: "172px",
-              border: "1px solid #ccc",
-              background: "#fff",
-              overflow: "auto",
-              WebkitOverflowScrolling: "touch",
-              borderRadius: "28px",
-              outline: "none",
-              paddingTop: "48px",
-              paddingBottom: "48px",
-              paddingLeft: "50px",
-              paddingRight: "50px",
-            },
-          }}
-        >
-          <ModalTitleBox>
-            <ModalTitle>아티클 작성하기</ModalTitle>
-            <CloseButton onClick={() => setmodalIsOpen(false)}>
-              <CloseIcon />
-            </CloseButton>
-          </ModalTitleBox>
-          <Div>
-            <H4>제목</H4>
-            <Input type="text" placeholder="아티클 제목을 작성해주세요"></Input>
-            <H4>내용</H4>
-            <InputContent
-              type="text"
-              placeholder="아티클 내용을 작성해주세요"
-            ></InputContent>
-            <PostButton>작성 완료</PostButton>
-          </Div>
-        </Modal>
+        <WriteModal
+          open={modalIsOpen}
+          onOpenChange={(state) => setmodalIsOpen(state)}
+        />
       </TitleBox>
       <ArticleBox>
-        <ArticleList
-          articleList={articleList}
-          onSelect={handleSelect}
-          onClick={() => setArticleModalIsOpen(true)}
-        />
-        <Modal
-          isOpen={articleModalIsOpen}
-          style={{
-            overlay: {
-              backgroundColor: "#F8F9FA",
-            },
-            content: {
-              backgroundColor: "FFFFFF",
-              top: "172px",
-              left: "220px",
-              right: "220px",
-              bottom: "172px",
-              border: "1px solid #ccc",
-              background: "#fff",
-              overflow: "auto",
-              WebkitOverflowScrolling: "touch",
-              borderRadius: "28px",
-              outline: "none",
-              paddingTop: "48px",
-              paddingBottom: "48px",
-              paddingLeft: "50px",
-              paddingRight: "50px",
-            },
-          }}
-        >
-          <Div>
-            <ArticleDetail selectedId={selectedId} />
-          </Div>
-        </Modal>
-        <ArticleCreate onCreate={handleCreate} />
+        <ArticleList articleList={articleList} onSelect={handleSelect} />
+        <ArticleDetail selectedId={selectedId} />
       </ArticleBox>
     </MainBox>
   );
